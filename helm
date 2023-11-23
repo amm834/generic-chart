@@ -1,0 +1,47 @@
+#!/bin/sh
+
+start() {
+  for name in hasher redis rng webui worker; do
+    helm  install $name ./ --values=$name-values.yaml
+  done
+}
+
+delete() {
+  for name in hasher redis rng webui worker; do
+    helm  delete $name
+  done
+}
+
+status() {
+  for name in hasher redis rng webui worker; do
+    helm  status $name
+  done
+}
+
+ upgrade() {
+  for name in hasher redis rng webui worker; do
+    helm  upgrade $name ./ --values=$name-values.yaml
+  done
+}
+
+help() {
+  echo "Usage: $0 {start|delete|status|upgrade}"
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  delete)
+    delete
+    ;;
+  status)
+    status
+    ;;
+  upgrade)
+    upgrade
+    ;;
+  *)
+    help
+    ;;
+esac
